@@ -18,8 +18,6 @@ import org.slf4j.LoggerFactory;
 @Ignore
 public abstract class HibernateBaseTestUsingProgrammableConfig {
 
-	private EntityManagerFactory emf;
-
 	protected EntityManager em;
 
 	private List<Class<?>> classes = new ArrayList<Class<?>>();
@@ -38,7 +36,7 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 		properties.put("hibernate.connection.username", "om");
 		properties.put("hibernate.connection.password", "om");
 		properties.put("hibernate.connection.driver_class", "org.h2.Driver");
-		properties.put("hibernate.connection.url", "jdbc:h2:db4tests");
+		properties.put("hibernate.connection.url", "jdbc:h2:mem:db4tests");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		properties.put("hibernate.hbm2ddl.auto", "create");
 		properties.put("hibernate.show_sql", "false");
@@ -92,7 +90,7 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 	}
 
 	/**
-	 * Three methods are avialable
+	 * Two methods are available
 	 * 
 	 * <ul>
 	 * <li>addClass(Class<?>)</li>
