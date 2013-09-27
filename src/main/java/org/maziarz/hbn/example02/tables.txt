@@ -1,0 +1,11 @@
+create table Part (
+        id varchar(255) not null,
+        partId varchar(255),
+        primary key (id)
+    )
+    
+create table Product (
+    serialNumber varchar(255) not null,
+    name varchar(255),
+    primary key (serialNumber)
+)
