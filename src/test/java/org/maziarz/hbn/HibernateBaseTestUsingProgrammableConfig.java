@@ -78,14 +78,14 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 		test();
 	}
 
-	protected void addClass(Class<?> c) {
+	protected void registerModelClass(Class<?> c) {
 		classes.add(c);
 	}
 
-	protected void addClasses(Class<?> c, Class<?>... cs) {
-		addClass(c);
+	protected void registerModelClasses(Class<?> c, Class<?>... cs) {
+		registerModelClass(c);
 		for (Class<?> csi : cs) {
-			addClass(csi);
+			registerModelClass(csi);
 		}
 	}
 
@@ -93,8 +93,8 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 	 * Two methods are available
 	 * 
 	 * <ul>
-	 * <li>addClass(Class<?>)</li>
-	 * <li>addClasses(Class<?>, Class<?>...)</li>
+	 * <li>registerModelClass(Class<?>)</li>
+	 * <li>registerModelClasses(Class<?>, Class<?>...)</li>
 	 * </ul>
 	 */
 	protected abstract void onInit();

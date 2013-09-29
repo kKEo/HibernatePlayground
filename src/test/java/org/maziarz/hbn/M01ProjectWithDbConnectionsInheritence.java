@@ -19,7 +19,7 @@ public class M01ProjectWithDbConnectionsInheritence extends HibernateBaseTestUsi
 
 	@Override
 	protected void onInit() {
-		addClasses(M01Project.class, M01DbConn.class, M01JdbcConn.class, M01AiDbcConn.class, M01JdbcOracleConn.class,
+		registerModelClasses(M01Project.class, M01DbConn.class, M01JdbcConn.class, M01AiDbcConn.class, M01JdbcOracleConn.class,
 				M01JdbcMysqlConn.class);
 	}
 }
