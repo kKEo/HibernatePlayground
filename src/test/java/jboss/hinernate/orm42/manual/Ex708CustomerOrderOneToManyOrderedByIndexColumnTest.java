@@ -9,12 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 
 import org.junit.Assert;
 import org.maziarz.hbn.HibernateBaseTestUsingProgrammableConfig;
 
-public class Ex707CustomerOrderOneToManyOrderedByTest extends HibernateBaseTestUsingProgrammableConfig {
+public class Ex708CustomerOrderOneToManyOrderedByIndexColumnTest extends HibernateBaseTestUsingProgrammableConfig {
 
 	@Entity(name = "Customers")
 	public static class Customer {
@@ -33,7 +33,7 @@ public class Ex707CustomerOrderOneToManyOrderedByTest extends HibernateBaseTestU
 		}
 
 		@OneToMany(mappedBy = "customer")
-		@OrderBy("number")
+		@OrderColumn(name="orders_idx")
 		public List<Order> getOrders() {
 			if (orders == null) {
 				orders = new ArrayList<Order>();
@@ -204,10 +204,11 @@ public class Ex707CustomerOrderOneToManyOrderedByTest extends HibernateBaseTestU
 		Assert.assertEquals(3, loadedCustomer.getOrders().size());
 		
 		Order order3 = loadedCustomer.getOrders().get(2);
-		Assert.assertEquals(new Long(2), order3.getId());
-		Assert.assertEquals("n3", order3.getNumber());
+		Assert.assertEquals(new Long(3), order3.getId());
+		Assert.assertEquals("n2", order3.getNumber());
 
-		Assert.assertTrue(loadedCustomer.equals(originalCustomer));
+		Object number = getEnitityManager().createQuery("Select number from Orders where id = 3").getSingleResult();
+		Assert.assertEquals("n2", number);
 	}
 
 }

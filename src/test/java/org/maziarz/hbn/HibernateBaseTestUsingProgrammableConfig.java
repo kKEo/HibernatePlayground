@@ -1,14 +1,22 @@
 package org.maziarz.hbn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.EntityType;
+
+import jboss.hinernate.orm42.manual.Ex711CustomerOrderOneToManyMapJoinTableTest.Customer;
 
 import org.hibernate.ejb.Ejb3Configuration;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -100,5 +108,21 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 	protected abstract void onInit();
 
 	protected abstract void test();
+
+	protected <T> void assertColumnsExist(Class<T> clazz, String... columnNames) {
+		EntityType<T> customerMetadata = getEnitityManager().getMetamodel().entity(clazz);
+		Set<Attribute<? super T, ?>> attributes = customerMetadata.getAttributes();
+
+		Assert.assertEquals(columnNames.length, attributes.size());
+
+		Map<String, Attribute<? super T, ?>> attrs = new HashMap<String, Attribute<? super T, ?>>();
+		for (Attribute<? super T, ?> attribute : attributes) {
+			attrs.put(attribute.getName(), attribute);
+		}
+
+		for (String columnName : columnNames) {
+			Assert.assertNotNull(attrs.get(columnName));
+		}
+	}
 
 }

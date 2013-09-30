@@ -15,10 +15,10 @@ import javax.persistence.OneToMany;
 import org.junit.Assert;
 import org.maziarz.hbn.HibernateBaseTestUsingProgrammableConfig;
 
-public class Ex721TroopSoldierOneToManyBidirectionalTest extends HibernateBaseTestUsingProgrammableConfig {
+public class Ex722TroopSoldierOneToManyTest extends HibernateBaseTestUsingProgrammableConfig {
 
 	@Entity
-	public class Troop {
+	public static class Troop {
 
 		private String id;
 
@@ -34,7 +34,8 @@ public class Ex721TroopSoldierOneToManyBidirectionalTest extends HibernateBaseTe
 
 		private List<Soldier> soldiers = new ArrayList<Soldier>(0);
 
-		@OneToMany(mappedBy = "troop")
+		@OneToMany
+		@JoinColumn(name = "troop_fk")
 		public List<Soldier> getSoldiers() {
 			return soldiers;
 		}
@@ -43,16 +44,20 @@ public class Ex721TroopSoldierOneToManyBidirectionalTest extends HibernateBaseTe
 			this.soldiers = soliders;
 		}
 	}
-	
+
 	@Entity
-	public class Soldier {
+	public static class Soldier {
 
 		private String id;
 
 		private String name;
 
 		public Soldier(String name) {
-			this.name = name;
+			this.setName(name);
+		}
+
+		@SuppressWarnings("unused" /* for sake of hbn */)
+		private Soldier() {
 		}
 
 		@Id
@@ -68,7 +73,7 @@ public class Ex721TroopSoldierOneToManyBidirectionalTest extends HibernateBaseTe
 		private Troop troop;
 
 		@ManyToOne
-		@JoinColumn(name = "troop_fk")
+		@JoinColumn(name = "troop_fk", insertable = false, updatable = false)
 		public Troop getTroop() {
 			return troop;
 		}
@@ -76,8 +81,16 @@ public class Ex721TroopSoldierOneToManyBidirectionalTest extends HibernateBaseTe
 		public void setTroop(Troop troop) {
 			this.troop = troop;
 		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
 	}
-	
+
 	@Override
 	protected void test() {
 
@@ -118,6 +131,12 @@ public class Ex721TroopSoldierOneToManyBidirectionalTest extends HibernateBaseTe
 		Assert.assertEquals(troop, soldier.getTroop());
 
 		Assert.assertEquals(3, troop.getSoldiers().size());
+
+		em.clear();
+
+		Troop loadedTroop = em.find(Troop.class, "1");
+
+		Assert.assertEquals(3, loadedTroop.getSoldiers().size());
 
 	}
 
