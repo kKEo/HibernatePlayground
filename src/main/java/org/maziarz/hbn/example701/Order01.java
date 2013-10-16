@@ -24,7 +24,7 @@ public class Order01 {
 		return address;
 	}
 
-	public void setAddress() {
+	public void setAddress(Address01 address) {
 		this.address = address;
 	}
 }

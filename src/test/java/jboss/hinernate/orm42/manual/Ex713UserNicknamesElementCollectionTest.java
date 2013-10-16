@@ -12,9 +12,26 @@ import javax.persistence.JoinColumn;
 
 import org.maziarz.hbn.HibernateBaseTestUsingProgrammableConfig;
 
+/**
+ * 
+ * <pre>
+ *     create table User (
+ *         lastname varchar(255) not null,
+ *         primary key (lastname)
+ *     )
+ * </pre>
+ * 
+ * <pre>
+ *     create table Nicknames (
+ *         userLastname varchar(255) not null,
+ *         userNickname varchar(255)
+ *     )
+ * </pre>
+ * 
+ */
 public class Ex713UserNicknamesElementCollectionTest extends HibernateBaseTestUsingProgrammableConfig {
 
-	@Entity
+	@Entity(name = "User")
 	public static class User {
 
 		private String lastName;
@@ -31,7 +48,7 @@ public class Ex713UserNicknamesElementCollectionTest extends HibernateBaseTestUs
 
 		@ElementCollection
 		@CollectionTable(name = "Nicknames", joinColumns = @JoinColumn(name = "userLastname"))
-		@Column(name = "nickname")
+		@Column(name = "userNickname")
 		public Set<String> getNicknames() {
 			return nicknames;
 		}

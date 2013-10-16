@@ -1,8 +1,6 @@
 package jboss.hinernate.orm42.manual;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -16,13 +14,29 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
-import jboss.hinernate.orm42.manual.Ex714UserAddressElementCollectionEmbeddableObjectsTest.Address;
-
 import org.maziarz.hbn.HibernateBaseTestUsingProgrammableConfig;
 
+/**
+ * 
+ * <pre>
+ *     create table User (
+ *         id varchar(255) not null,
+ *         lastName varchar(255),
+ *         primary key (id)
+ *     )
+ * </pre>
+ * 
+ * <pre>
+ *     create table Address (
+ *         userId varchar(255) not null,
+ *         fld_house varchar(255),
+ *         fld_street varchar(255)
+ *     )
+ * </pre>
+ */
 public class Ex714UserAddressElementCollectionEmbeddableObjectsTest extends HibernateBaseTestUsingProgrammableConfig {
 
-	@Entity
+	@Entity(name = "User")
 	public class User {
 
 		private String id;
@@ -70,13 +84,13 @@ public class Ex714UserAddressElementCollectionEmbeddableObjectsTest extends Hibe
 	@Embeddable
 	public interface Address {
 
-		public abstract String getStreet();
+		String getStreet();
 
-		public abstract String getHouseNum();
+		String getHouseNum();
 
-		public abstract void setHouseNum(String houseNum);
+		void setHouseNum(String houseNum);
 
-		public abstract void setStreet(String street);
+		void setStreet(String street);
 
 	}
 

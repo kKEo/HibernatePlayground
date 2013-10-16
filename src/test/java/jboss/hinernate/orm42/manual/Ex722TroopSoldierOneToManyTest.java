@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import org.maziarz.hbn.HibernateBaseTestUsingProgrammableConfig;
 
 public class Ex722TroopSoldierOneToManyTest extends HibernateBaseTestUsingProgrammableConfig {
 
-	@Entity
+	@Entity (name ="Troop")
 	public static class Troop {
 
 		private String id;
@@ -34,7 +35,7 @@ public class Ex722TroopSoldierOneToManyTest extends HibernateBaseTestUsingProgra
 
 		private List<Soldier> soldiers = new ArrayList<Soldier>(0);
 
-		@OneToMany
+		@OneToMany(cascade = CascadeType.ALL)
 		@JoinColumn(name = "troop_fk")
 		public List<Soldier> getSoldiers() {
 			return soldiers;
@@ -42,10 +43,14 @@ public class Ex722TroopSoldierOneToManyTest extends HibernateBaseTestUsingProgra
 
 		public void setSoldiers(List<Soldier> soliders) {
 			this.soldiers = soliders;
+			
+			for(Soldier s : soliders) {
+				s.setTroop(this);
+			}
 		}
 	}
 
-	@Entity
+	@Entity (name ="Soldier")
 	public static class Soldier {
 
 		private String id;
@@ -56,7 +61,7 @@ public class Ex722TroopSoldierOneToManyTest extends HibernateBaseTestUsingProgra
 			this.setName(name);
 		}
 
-		@SuppressWarnings("unused" /* for sake of hbn */)
+		@SuppressWarnings("unused" /* hbn */)
 		private Soldier() {
 		}
 
@@ -97,30 +102,24 @@ public class Ex722TroopSoldierOneToManyTest extends HibernateBaseTestUsingProgra
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 
-		Soldier s1 = new Soldier("S1");
-		Soldier s2 = new Soldier("S2");
-		Soldier s3 = new Soldier("S3");
 		Troop t = new Troop();
 
 		em.persist(t);
-
 		em.flush();
-
+		
 		Troop troop = em.find(Troop.class, "1");
 		Assert.assertNotNull(troop);
-
 		Assert.assertEquals(0, troop.getSoldiers().size());
+		
+		Soldier s1 = new Soldier("S1");
+		Soldier s2 = new Soldier("S2");
+		Soldier s3 = new Soldier("S3");
 
-		s1.setTroop(t);
-		s2.setTroop(t);
-		s3.setTroop(t);
 		t.setSoldiers(Arrays.asList(s1, s2, s3));
 
 		Assert.assertEquals(3, troop.getSoldiers().size());
-
-		em.persist(s1);
-		em.persist(s2);
-		em.persist(s3);
+		
+		em.persist(t) /* cascade persist all soldiers*/;
 		em.flush();
 
 		tx.commit();

@@ -14,7 +14,7 @@ public class Address01 {
 		return street1;
 	}
 
-	public void setStreet1() {
+	public void setStreet1(String street1) {
 		this.street1 = street1;
 	}
 
