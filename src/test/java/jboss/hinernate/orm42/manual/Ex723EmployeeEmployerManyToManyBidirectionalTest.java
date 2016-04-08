@@ -31,7 +31,7 @@ public class Ex723EmployeeEmployerManyToManyBidirectionalTest extends HibernateB
 
 		private Collection<Employer> employers;
 
-		@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "employees", targetEntity = Employer.class)
+		@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "employees")
 		public Collection<Employer> getEmployers() {
 			return employers;
 		}

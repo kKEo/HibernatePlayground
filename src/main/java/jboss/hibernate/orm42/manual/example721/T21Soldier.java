@@ -1,16 +1,10 @@
 package jboss.hibernate.orm42.manual.example721;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-
 
 @Entity
 public class T21Soldier {
@@ -31,6 +25,10 @@ public class T21Soldier {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	private T21Troop troop;

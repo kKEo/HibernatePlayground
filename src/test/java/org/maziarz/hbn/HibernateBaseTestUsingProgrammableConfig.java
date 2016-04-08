@@ -12,8 +12,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 
-import jboss.hinernate.orm42.manual.Ex711CustomerOrderOneToManyMapJoinTableTest.Customer;
-
 import org.hibernate.ejb.Ejb3Configuration;
 import org.junit.After;
 import org.junit.Assert;
@@ -68,10 +66,14 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 
 	@Before
 	public void setUp() {
+		try {
 		onInit();
 		logger.info("Model package: " + packages);
 		logger.info("Model classes: " + classes);
 		em = createEntityManager(packages, classes);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	@After
@@ -83,7 +85,11 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 
 	@Test
 	public final void actualTest() throws Exception {
-		test();
+		try {
+			test();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	protected void registerModelClass(Class<?> c) {
