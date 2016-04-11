@@ -39,10 +39,11 @@ public abstract class HibernateBaseTestUsingProgrammableConfig {
 		Properties properties = new Properties();
 		properties.put("javax.persistence.provider", "org.hibernate.ejb.HibernatePersistence");
 		properties.put("javax.persistence.transactionType", "RESOURCE_LOCAL");
-		properties.put("hibernate.connection.username", "om");
-		properties.put("hibernate.connection.password", "om");
+		properties.put("hibernate.connection.username", "");
+		properties.put("hibernate.connection.password", "");
 		properties.put("hibernate.connection.driver_class", "org.h2.Driver");
 		properties.put("hibernate.connection.url", "jdbc:h2:mem:db4tests");
+//		properties.put("hibernate.connection.url", "jdbc:h2:/tmp/mapping;AUTO_SERVER=TRUE");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		properties.put("hibernate.hbm2ddl.auto", "create");
 		properties.put("hibernate.show_sql", "false");

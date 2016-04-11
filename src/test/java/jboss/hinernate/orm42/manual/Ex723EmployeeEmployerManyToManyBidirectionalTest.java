@@ -81,7 +81,6 @@ public class Ex723EmployeeEmployerManyToManyBidirectionalTest extends HibernateB
 	@Override
 	protected void onInit() {
 		registerModelClasses(Employer.class, Employee.class);
-
 	}
 
 }
